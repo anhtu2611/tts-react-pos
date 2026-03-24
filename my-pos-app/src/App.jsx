@@ -9,6 +9,7 @@ function App() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [cartItems, setCartItems] = useState([]);
+
   const [searchTerm, setSearchTerm] = useState('');
 
   // Mô phỏng gọi API lấy dữ liệu

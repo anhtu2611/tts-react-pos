@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import './ProductCard.css';
 
+const removeVietnameseTones = (str) => {
+  if (!str) return "";
+  return str
+    .normalize('NFD') 
+    .replace(/[\u0300-\u036f]/g, '') 
+    .replace(/đ/g, 'd') 
+    .replace(/Đ/g, 'D');
+};
+
 const ProductArea = ({ products, isLoading, onAddToCart, searchTerm }) => {
   const categories = [
     'TẤT CẢ', 'PHỤ KIỆN', 'CÀ PHÊ', 'TRÀ', 'TRÀ SỮA', 'ĐÁ XAY', 
@@ -8,12 +17,14 @@ const ProductArea = ({ products, isLoading, onAddToCart, searchTerm }) => {
     'BÁNH NGỌT', 'BÁNH MÌ', 'COMBO SẢN PHẨM'
   ];
 
-  const [activeCategory, setActiveCategory] = useState('TẤT CẢ');
-  const filteredProducts = products.filter((product) => {
-    const isMatchCategory = activeCategory === 'TẤT CẢ' || product.category === activeCategory;
-    const isMatchSearch = !searchTerm || searchTerm.trim() === '' || product.name.toLowerCase().includes(searchTerm.trim().toLowerCase());
-    return isMatchCategory && isMatchSearch;
-  });
+const [activeCategory, setActiveCategory] = useState('TẤT CẢ');
+const filteredProducts = products.filter((product) => {
+  const isMatchCategory = activeCategory === 'TẤT CẢ' || product.category === activeCategory;
+  const isMatchSearch = !searchTerm || searchTerm.trim() === '' || 
+  removeVietnameseTones(product.name.toLowerCase())
+  .includes(removeVietnameseTones(searchTerm.trim().toLowerCase()));
+  return isMatchCategory && isMatchSearch;
+});
 
   return (
     <div className="product-area">
