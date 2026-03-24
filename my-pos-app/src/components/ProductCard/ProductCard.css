@@ -1,0 +1,123 @@
+/* Khung bọc ngoài vùng sản phẩm */
+.product-area {
+  flex: 6;
+  background-color: #d1dbe5; 
+  border-right: 2px solid #ccc;
+  display: flex;
+  flex-direction: column; 
+}
+
+.category-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px; 
+  padding: 8px;
+  background-color: #f4f6f8; 
+}
+
+.category-btn {
+  background-color: #00508b; 
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+.category-btn:hover {
+  background-color: #003f6b; 
+}
+
+.category-btn.active {
+  background-color: #e67e22; 
+  color: white;
+}
+
+.product-grid-placeholder {
+  padding: 30px;
+  text-align: center;
+  color: #333;
+}
+
+/* LƯỚI SẢN PHẨM (PRODUCT GRID)*/
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+  padding: 12px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* THẺ SẢN PHẨM (PRODUCT CARD)  */
+.product-card {
+  background-color: #fff;
+  border: 1px solid #a9cce3;
+  border-radius: 4px;
+  height: 200px; 
+  display: flex;
+  flex-direction: column; 
+  overflow: hidden; 
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.product-card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Phần Header màu xanh nhạt */
+.card-header {
+  background-color: #a9cce3;
+  height: 28px;
+  display: flex;
+  justify-content: flex-end; 
+  padding: 0 6px;
+}
+
+.info-icon {
+  width: 18px;
+  height: 18px;
+  background-color: #00508b;
+  color: white;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Phần khung chứa ảnh */
+.product-img-container {
+  flex: 1; 
+  width: 100%;
+  overflow: hidden;
+}
+
+.product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+}
+
+/* Phần footer màu xám đen */
+.card-footer {
+  background-color: #546e7a;
+  color: white;
+  text-align: center;
+  padding: 8px 4px;
+}
+
+.product-name {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.product-price {
+  font-size: 13px;
+}

@@ -1,0 +1,21 @@
+/* Reset lề mặc định của trình duyệt */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Biến toàn bộ màn hình thành 1 cột từ trên xuống dưới */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; 
+  overflow: hidden; 
+}
+
+/* Phần thân chứa 2 cột */
+.main-content {
+  display: flex; 
+  flex: 1; 
+  overflow: hidden; 
+}
