@@ -12,9 +12,7 @@ const removeVietnameseTones = (str) => {
 
 const ProductArea = ({ products, isLoading, onAddToCart, searchTerm }) => {
   const categories = [
-    'TẤT CẢ', 'PHỤ KIỆN', 'CÀ PHÊ', 'TRÀ', 'TRÀ SỮA', 'ĐÁ XAY', 
-    'NƯỚC ÉP', 'NƯỚC SUỐI', 'SEASON', 'THỨC UỐNG NÓNG', 
-    'BÁNH NGỌT', 'BÁNH MÌ', 'COMBO SẢN PHẨM'
+    'TẤT CẢ','CÀ PHÊ', 'TRÀ', 'TRÀ SỮA', 'NƯỚC ÉP', 'NƯỚC SUỐI', 'BÁNH NGỌT', 'BÁNH MÌ'
   ];
 
 const [activeCategory, setActiveCategory] = useState('TẤT CẢ');
