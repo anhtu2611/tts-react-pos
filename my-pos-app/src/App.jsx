@@ -3,7 +3,7 @@ import Navbar from './components/Navbar/Navbar';
 import SearchBar from './components/SearchBar/SearchBar';
 import ProductArea from './components/ProductCard/ProductCard';
 import CartArea from './components/Cart/Cart';
-import { supabase } from '../utils/supabaseClient';
+import { supabase } from './utils/supabaseClient';
 import './App.css';
 
 function App() {
@@ -14,27 +14,31 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-  const fetchProducts = async () => {
+  let isMounted = true;
+  async function loadProducts() {
     try {
-      // Bắt đầu gọi API từ Supabase
       setIsLoading(true);
       const { data, error } = await supabase
         .from('products')
-        .select('*');
-
-      if (error) {
-        throw error;
-      }
-
-      setProducts(data);
-      
-    } catch (error) {
-      console.error("Lỗi khi tải dữ liệu:", error.message);
+        .select('id,name,price,image,category')
+        .order('id', { ascending: true });
+      if (error) throw error;
+      const normalized = (data ?? []).map((p) => ({
+        ...p,
+        price: Number(p.price),
+      }));
+      if (isMounted) setProducts(normalized);
+    } catch (err) {
+      console.error('Load products failed:', err);
+      if (isMounted) setProducts([]);
     } finally {
-      setIsLoading(false);
+      if (isMounted) setIsLoading(false);
     }
+  }
+  loadProducts();
+  return () => {
+    isMounted = false;
   };
-  fetchProducts();
 }, []);
 
   const handleAddToCart = (product) => {
