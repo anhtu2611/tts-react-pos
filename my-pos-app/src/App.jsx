@@ -3,6 +3,7 @@ import Navbar from './components/Navbar/Navbar';
 import SearchBar from './components/SearchBar/SearchBar';
 import ProductArea from './components/ProductCard/ProductCard';
 import CartArea from './components/Cart/Cart';
+import { supabase } from '../utils/supabaseClient';
 import './App.css';
 
 function App() {
@@ -12,25 +13,29 @@ function App() {
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Mô phỏng gọi API lấy dữ liệu
   useEffect(() => {
-    setTimeout(() => {
-      const mockApiData = [
-        { id: 1, name: 'CÀ PHÊ', price: 47000, image: '/images/coffe.jpg', category: 'CÀ PHÊ' },
-        { id: 2, name: 'NƯỚC ÉP', price: 37000, image: '/images/juice.jpg', category: 'NƯỚC ÉP' },
-        { id: 3, name: 'TRÀ', price: 35000, image: '/images/tea.jpg', category: 'TRÀ' },
-        { id: 4, name: 'TRÀ SỮA', price: 47000, image: '/images/milk-tea.jpg', category: 'TRÀ SỮA'},
-        { id: 5, name: 'TRÀ SỮA TRÂN CHÂU', price: 40000, image: '/images/milk-tea.jpg', category: 'TRÀ SỮA' },
-        { id: 6, name: 'CÀ PHÊ 2', price: 47000, image: '/images/coffe.jpg', category: 'CÀ PHÊ' },
-        { id: 7, name: 'NƯỚC ÉP 2', price: 37000, image: '/images/juice.jpg', category: 'NƯỚC ÉP' },
-        { id: 8, name: 'TRÀ 2', price: 35000, image: '/images/tea.jpg', category: 'TRÀ' },
-        { id: 9, name: 'TRÀ SỮA 2', price: 47000, image: '/images/milk-tea.jpg', category: 'TRÀ SỮA'},
-        { id: 10, name: 'TRÀ SỮA TRÂN CHÂU 2', price: 40000, image: '/images/milk-tea.jpg', category: 'TRÀ SỮA' }, 
-      ];
-      setProducts(mockApiData);
+  const fetchProducts = async () => {
+    try {
+      // Bắt đầu gọi API từ Supabase
+      setIsLoading(true);
+      const { data, error } = await supabase
+        .from('products')
+        .select('*');
+
+      if (error) {
+        throw error;
+      }
+
+      setProducts(data);
+      
+    } catch (error) {
+      console.error("Lỗi khi tải dữ liệu:", error.message);
+    } finally {
       setIsLoading(false);
-    }, 1000);
-  }, []);
+    }
+  };
+  fetchProducts();
+}, []);
 
   const handleAddToCart = (product) => {
     const existingItem = cartItems.find((item) => item.id === product.id);
