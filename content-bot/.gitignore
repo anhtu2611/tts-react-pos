@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env
+data/
+prisma/data/
+*.session
+*.session.json
+prisma/generated/
+logs/
+bin/
