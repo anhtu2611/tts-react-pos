@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model ContentItem {
+  id              Int      @id @default(autoincrement())
+  source          String   // "telegram", "twitter", "manual"
+  sourceChannel   String?  // tên channel/account nguồn
+  originalText    String   // nội dung gốc
+  rewrittenText   String?  // bài viết lại tiếng Việt
+  rewrittenTextEn String?  // bài viết lại tiếng Anh
+  tweetVI         String?  // tweet tiếng Việt (ngắn)
+  tweetEN         String?  // tweet tiếng Anh (ngắn)
+  factCheckNote   String?  // ghi chú kiểm chứng
+  status          String   @default("pending") // pending | processing | approved | rejected | published
+  publishedAt     DateTime?
+  sourceUrl       String?  // link bài gốc (dùng cho web crawler)
+  imagePath       String?  // đường dẫn ảnh local (nếu có)
+  videoPath       String?  // đường dẫn video local (nếu có)
+  telegramMsgId   String?  // ID tin nhắn Telegram đã đăng
+  twitterVIId     String?  // ID tweet tiếng Việt
+  twitterENId     String?  // ID tweet tiếng Anh
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([status])
+  @@index([source])
+  @@index([createdAt])
+}
+
+model ContentSource {
+  id        Int      @id @default(autoincrement())
+  type      String   // "telegram" | "twitter"
+  handle    String   @unique // @channel hoặc username Twitter
+  active    Boolean  @default(true)
+  addedAt   DateTime @default(now())
+}
+
+model ProcessedMessage {
+  id          Int      @id @default(autoincrement())
+  source      String   // "telegram" | "twitter"
+  externalId  String   // message_id hoặc tweet_id
+  processedAt DateTime @default(now())
+
+  @@unique([source, externalId])
+}
